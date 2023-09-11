@@ -52,7 +52,7 @@ class ImportDataViewSet(ViewSet):
         system_type_data = {"system_type" : data["System Type"] , **host_name_data}
         windows_dir_data = {"windows_dir" : data["Windows Directory"] , **host_name_data}
         logon_server_data = {"logon_server" : data["Logon Server"] , **host_name_data}
-        print("hello world")
+
         system_boot_date_time = getDateTime(system_time=data["System Boot Time"].split(" "))
         system_boot_data = {"system_boot_time" : system_boot_date_time, **host_name_data}
 
