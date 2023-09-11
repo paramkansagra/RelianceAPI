@@ -8,7 +8,7 @@ class HostName(models.Model):
 
 class Users(models.Model):
     host_name = models.ForeignKey(HostName, on_delete=models.CASCADE)
-    user_name = models.CharField(max_length=255 , unique=True)
+    user_name = models.CharField(max_length=255)
     group_name = models.CharField(max_length=255 )
 
 
