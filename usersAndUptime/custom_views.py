@@ -19,6 +19,8 @@ class ImportDataViewSet(ViewSet):
         def getDateTime(system_time):
             date = parser.isoparse(system_time)
 
+            return date
+
         
         data = request.data
 
@@ -35,7 +37,8 @@ class ImportDataViewSet(ViewSet):
                 group_instance.save()
                 print("saved")
         
-        uptime_data = {"uptime":getDateTime(data["Up Time"]) , "host_name" : data["host_name"]}
+        uptime_data = {"uptime":getDateTime(data["uptime"]) , "host_name" : data["host_name"]}
+        print(uptime_data)
 
         uptime_seralizer = UptimeSerializer(data=uptime_data)
 
