@@ -11,10 +11,22 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from cryptography.fernet import Fernet
+import os
+import json
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+def getIdPass():
+    with open(os.path.join(BASE_DIR, 'id_pass.json')) as secrets_file:
+        secrets = json.load(secrets_file)
+    fernet = Fernet(secrets["key"])
+    secrets["db_name"] = fernet.decrypt(secrets["db_name"]).decode()
+    secrets["user_name"] = fernet.decrypt(secrets["user_name"]).decode()
+    secrets["password"] = fernet.decrypt(secrets["password"]).decode()
 
+    return secrets
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -75,13 +87,13 @@ WSGI_APPLICATION = 'relianceAPI.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+idPass = getIdPass()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dev', # this is the name of db to use
-        'USER': 'root',
-        'PASSWORD': 'P@ram0208',
+        'NAME': idPass["db_name"], # this is the name of db to use
+        'USER': idPass["user_name"],
+        'PASSWORD': idPass["password"],
         'HOST':'localhost',
         'PORT':'3306',
     }

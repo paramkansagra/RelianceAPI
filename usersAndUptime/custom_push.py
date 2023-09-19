@@ -7,10 +7,8 @@ from django.db import connection
 
 
 class dev(ViewSet):
-
-    @action(methods=["POST"],detail=False)
-    def import_data(self,request):
-
+    @action(methods=["POST"], detail=False)
+    def import_data(self, request):
         def getDateTime(system_time):
             try:
                 date = parser.parse(system_time)
@@ -19,7 +17,7 @@ class dev(ViewSet):
                 _when = _when[:-4]
 
                 newFormat = aha[:2] + ":" + aha[2:]
-                
+
                 _when += newFormat
                 return _when
             except:
@@ -29,35 +27,36 @@ class dev(ViewSet):
             columnNames = ",".join(data.keys())
             valueData = []
             for i in data:
-                if(type(data[i]) == int):
+                if type(data[i]) == int:
                     valueData.append(str(data[i]))
                 else:
                     # lets check for date
-                    if(getDateTime(data[i]) != ""):
-                        string = "'"+getDateTime(data[i])+"'"
+                    if getDateTime(data[i]) != "":
+                        string = "'" + getDateTime(data[i]) + "'"
                         valueData.append(string)
                     else:
-                        string = "'"+data[i]+"'"
+                        string = "'" + data[i] + "'"
                         valueData.append(string)
-            
+
             values = ",".join(valueData)
 
-            query = "insert into {0} ({1}) values({2});".format(table_name[0],columnNames,values)
+            query = "insert into {0} ({1}) values({2});".format(
+                table_name[0], columnNames, values
+            )
             cursor.execute(query)
-        
-        data = request.data
-        cursor =  connection.cursor()
 
-        cursor.execute("SHOW TABLES");
+        data = request.data
+        cursor = connection.cursor()
+
+        cursor.execute("SHOW TABLES")
         table_names = cursor.fetchall()
 
-        table_name = (data["Table Name"],);
-        if(table_name in table_names):
+        table_name = (data["Table Name"],)
+        if table_name in table_names:
             requestData = data["data"]
             for i in requestData:
-                createQuery(i,table_name)
+                createQuery(i, table_name)
         else:
             print("table not in db")
 
-
-        return Response("All OK" , status=200)
+        return Response("All OK", status=200)
