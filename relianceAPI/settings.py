@@ -25,8 +25,8 @@ SECRET_KEY = 'django-insecure-+lq4(5fd4^8-w*ve_!f&%_$+6jks1f^z!vjl(194o6jhph8&(m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["10.211.55.5"]
-
+# ALLOWED_HOSTS = ["10.211.55.5"]
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'windowsAPI',
     'usersAndUptime',
 ]
 
@@ -79,8 +78,12 @@ WSGI_APPLICATION = 'relianceAPI.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dev', # this is the name of db to use
+        'USER': 'root',
+        'PASSWORD': 'P@ram0208',
+        'HOST':'localhost',
+        'PORT':'3306',
     }
 }
 
