@@ -99,14 +99,15 @@ DATABASES = {
     #     'PORT':'3306',
     # }
     "default": {
-        "ENGINE": "mssql",
+        "ENGINE": "mysql",
         "NAME": idPass["db_name"],
         "USER": idPass["user_name"],
         "PASSWORD": idPass["password"],
         "HOST": "10.21.50.198",
         "PORT": "1433",
         "OPTIONS": {
-            "driver": "ODBC Driver 17 for SQL Server",
+            'driver': 'ODBC Driver 18 for SQL Server',
+            'extra_params': "Encrypt=no;TrustServerCertificate=yes"
         },
     }
 }
